@@ -18,7 +18,7 @@ module.exports = {
 
         // Save new sauce object in database
         sauceSchema.save()
-            .then(() => res.status(201).json({
+            .then(() => res.status(200).json({
                 message: `La sauce ${sauce.name} a bien été ajoutée !`
             }))
             .catch(error => res.status(400).json({
@@ -66,7 +66,7 @@ module.exports = {
                         message: error
                     }));
             })
-            .catch(error => res.status(500).json({
+            .catch(error => res.status(400).json({
                 message: error
             }));
     },
@@ -76,7 +76,7 @@ module.exports = {
         // Get sauce object from database
         sauceModel.findOne({ _id: req.params.id })
             .then(sauce => res.status(200).json(sauce))
-            .catch(error => res.status(404).json({
+            .catch(error => res.status(400).json({
                 message: error
             }));
     },
@@ -164,7 +164,7 @@ module.exports = {
                         message: error
                     }));
             })
-            .catch(error => res.status(404).json({
+            .catch(error => res.status(400).json({
                 message: error
             }));
     }
