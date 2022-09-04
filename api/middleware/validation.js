@@ -13,7 +13,7 @@ function checkValidationErrors(req, res, next) {
     if (!errors.isEmpty()) {
 
         // Return errors
-        return res.status(403).json({
+        return res.status(400).json({
             message: errors.array()[0].msg
         });
     }
