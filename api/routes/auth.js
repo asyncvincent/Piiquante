@@ -1,8 +1,13 @@
 const router = require('express').Router();
-const validation = require('../middleware/validation');
+const LoginValidation = require('../middleware/validation').LoginValidation;
+const SignupValidation = require('../middleware/validation').SignupValidation;
 const authController = require('../controllers/auth.controller');
 
-router.post('/signup', validation.signupValidation, authController.signup);
-router.post('/login', validation.loginValidation, authController.login);
+// Signup route
+router.post('/signup', SignupValidation, authController.Signup);
 
+// Login route
+router.post('/login', LoginValidation, authController.Login);
+
+// Export router
 module.exports = router;
