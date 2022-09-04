@@ -1,30 +1,25 @@
 const router = require('express').Router();
-const userAuth = require('../middleware/authentication');
+const Authentication = require('../middleware/authentication').Authentication;
 const sauceController = require('../controllers/sauce.controller');
-const multer = require('multer');
+const multer = require('../utils/multer');
 
-const MIME_TYPES = {
-    'image/jpg': 'jpg',
-    'image/jpeg': 'jpg',
-    'image/png': 'png'
-};
+// Create new sauce route
+router.post('/', Authentication, multer, sauceController.Create);
 
-const storage = multer.diskStorage({
-    destination: (req, file, callback) => {
-        callback(null, 'images');
-    },
-    filename: (req, file, callback) => {
-        const name = file.originalname.split(' ').join('_');
-        const extension = MIME_TYPES[file.mimetype];
-        callback(null, name + Date.now() + '.' + extension);
-    }
-});
+// Update sauce route 
+router.put('/:id', Authentication, multer, sauceController.Update);
 
-router.post('/', userAuth, multer({ storage: storage }).single('image'), sauceController.create);
-router.put('/:id', userAuth, multer({ storage: storage }).single('image'), sauceController.modify);
-router.delete('/:id', userAuth, sauceController.delete);
-router.get('/:id', userAuth, sauceController.getOne);
-router.get('/', userAuth, sauceController.getAll);
-router.post('/:id/like', userAuth, sauceController.likeAndDislike);
+// Delete sauce route
+router.delete('/:id', Authentication, sauceController.Delete);
 
+// Get one sauces route
+router.get('/:id', Authentication, sauceController.GetOne);
+
+// Get all sauces route
+router.get('/', Authentication, sauceController.GetAll);
+
+// Like and dislike sauce route
+router.post('/:id/like', Authentication, sauceController.LikeAndDislike);
+
+// Export router
 module.exports = router;
