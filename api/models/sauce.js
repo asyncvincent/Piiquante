@@ -1,6 +1,20 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+/*
+ * Sauce Schema
+ * @property {String} userId 
+ * @property {String} name  
+ * @property {String} manufacturer 
+ * @property {String} description
+ * @property {String} mainPepper 
+ * @property {String} imageUrl 
+ * @property {Number} heat
+ * @property {Number} likes
+ * @property {Number} dislikes
+ * @property {Array} usersLiked
+ * @property {Array} usersDisliked
+ */
 const sauceSchema = new Schema({
     userId: {
         type: String,
@@ -8,7 +22,8 @@ const sauceSchema = new Schema({
     },
     name: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     manufacturer: {
         type: String,
@@ -24,24 +39,33 @@ const sauceSchema = new Schema({
     },
     imageUrl: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     heat: {
         type: Number,
         required: true
     },
     likes: {
-        type: Number
+        type: Number,
+        default: 0
     },
     dislikes: {
-        type: Number
+        type: Number,
+        default: 0
     },
     usersLiked: {
-        type: [String]
+        type: [String],
+        default: []
     },
     usersDisliked: {
-        type: [String]
+        type: [String],
+        default: []
     }
 });
 
+// Add unique validator to sauceSchema
+sauceSchema.plugin(require('mongoose-unique-validator'));
+
+// Export Sauce model
 module.exports = mongoose.model('Sauce', sauceSchema);
