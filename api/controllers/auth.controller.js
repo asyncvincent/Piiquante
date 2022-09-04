@@ -25,7 +25,7 @@ module.exports = {
 
         // Save user in database
         await user.save()
-            .then(() => res.status(201).json({
+            .then(() => res.status(200).json({
                 message: "L'utilisateur a été créé avec succès",
                 token
             }))
