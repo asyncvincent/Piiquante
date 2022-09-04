@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+/*
+ * User Schema
+ * @property {String} email 
+ * @property {String} password 
+ */
 const userSchema = new Schema({
     email: {
         type: String,
@@ -13,8 +18,10 @@ const userSchema = new Schema({
     }
 });
 
+// Add unique validator to userSchema
 userSchema.plugin(require('mongoose-unique-validator'));
 
+// Export User model
 module.exports = mongoose.model('User', userSchema);
 
 
