@@ -21,6 +21,9 @@ const userSchema = new Schema({
 // Add unique validator to userSchema
 userSchema.plugin(require('mongoose-unique-validator'));
 
+// Add mongoose-error to userSchema
+userSchema.plugin(require('mongoose-error'));
+
 // Export User model
 module.exports = mongoose.model('User', userSchema);
 
