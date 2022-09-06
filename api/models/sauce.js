@@ -67,5 +67,8 @@ const sauceSchema = new Schema({
 // Add unique validator to sauceSchema
 sauceSchema.plugin(require('mongoose-unique-validator'));
 
+// Add mongoose-error to sauceSchema
+sauceSchema.plugin(require('mongoose-error'));
+
 // Export Sauce model
 module.exports = mongoose.model('Sauce', sauceSchema);
