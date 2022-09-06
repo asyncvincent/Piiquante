@@ -4,7 +4,6 @@ const uuid = require('uuid').v4;
 // Set MIME_TYPES object
 const MIME_TYPES = /png|jpeg|jpg/;
 
-
 // Set storage object
 const storage = multer.diskStorage({
 
