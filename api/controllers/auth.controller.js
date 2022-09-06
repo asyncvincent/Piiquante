@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const User = require('../models/user');
+const userModel = require('../models/user');
 const SESSION_KEY = process.env.SESSION_KEY;
 
 module.exports = {
@@ -15,7 +15,7 @@ module.exports = {
         const hashedPassword = await bcrypt.hash(password, 12);
 
         // Create new user 
-        const user = new User({
+        const user = new userModel({
             email,
             password: hashedPassword
         });
@@ -43,7 +43,7 @@ module.exports = {
         const { email, password } = req.body;
 
         // Find user in database
-        const user = await User.findOne({ email });
+        const user = await userModel.findOne({ email });
 
         // If user doesn't exist
         if (!user) {
