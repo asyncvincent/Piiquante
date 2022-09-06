@@ -28,17 +28,46 @@ module.exports = {
 
     Update: (req, res) => {
 
-        // Get sauce object 
-        const sauce = req.file ? { ...JSON.parse(req.body.sauce), imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}` } : { ...req.body };
+        // Get sauce object from database
+        sauceModel.findOne({ _id: req.params.id })
+            .then(sauce => {
 
-        // Update sauce object in database
-        sauceModel.updateOne({ _id: req.params.id }, { ...sauce, _id: req.params.id })
-            .then(() => res.status(200).json({
-                message: `La sauce ${sauce.name} a bien été modifiée !`
-            }))
-            .catch(error => res.status(400).json({
-                message: error
-            }));
+                // Check if sauce name has changed
+                if (sauce.name !== req.body.name) {
+
+                    // Check if sauce name is already used
+                    sauceModel.findOne({ name: req.body.name })
+                        .then(sauce => {
+
+                            // If sauce name is already used
+                            if (sauce) {
+                                return res.status(400).json({
+                                    message: `Le nom de la sauce ${req.body.name} est déjà utilisé !`
+                                });
+                            }
+
+                            // If sauce name is not already used
+                            else {
+
+                                // Get sauce object 
+                                const sauce = req.file ? { ...JSON.parse(req.body.sauce), imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}` } : { ...req.body };
+
+                                // Update sauce object in database
+                                sauceModel.updateOne({ _id: req.params.id }, { ...sauce, _id: req.params.id })
+                                    .then(() => res.status(200).json({
+                                        message: `La sauce ${sauce.name} a bien été modifiée !`
+                                    }))
+                                    .catch(error => res.status(400).json({
+                                        message: error
+                                    }));
+                            }
+                        })
+                        .catch(error => res.status(400).json({
+                            message: error
+                        }));
+                }
+            })
+
     },
 
     Delete: (req, res) => {
