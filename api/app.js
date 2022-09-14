@@ -10,7 +10,7 @@ require('dotenv').config();
 // Session options 
 app.use(session({
     name: "session-id",
-    secret: process.env.SESSION_KEY,
+    secret: process.env.SESSION_SECRET,
     saveUninitialized: true,
     resave: true,
     cookie: {
